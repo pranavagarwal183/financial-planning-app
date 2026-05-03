@@ -1,16 +1,3 @@
-"""
-Financial Planning Web App
-==========================
-
-Streamlit web interface for generating branded SIP + SWP financial planning
-PDFs. Designed for internal use by financial advisors.
-
-Run locally:
-    streamlit run financial_planning_app.py
-
-Deploy free on Streamlit Community Cloud — see DEPLOYMENT.md for instructions.
-"""
-
 from __future__ import annotations
 
 import logging
@@ -206,7 +193,7 @@ with st.form("plan_form"):
         investor_name = st.text_input(
             "Full Name",
             value="",
-            placeholder="e.g., Pranjal Gupta",
+            placeholder="e.g., Pranav Agarwal",
         )
 
     st.markdown("---")

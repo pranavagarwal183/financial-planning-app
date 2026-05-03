@@ -1,38 +1,3 @@
-"""
-Financial Planning PDF Generator
-=================================
-
-Generates a multi-page, branded PDF for an investor's SIP (Systematic Investment
-Plan) and SWP (Systematic Withdrawal Plan) strategy.
-
-The output is a 6-page document covering:
-    1. Cover & summary
-    2. SIP fund allocation structure
-    3. Year-wise corpus growth (Flat vs Step-Up)
-    4. SWP withdrawal projections
-    5. Wealth projection summary
-    6. Advisor / firm contact page
-
-Architecture
-------------
-The HTML is rendered to PDF using a headless Chromium browser via Playwright.
-This gives full CSS Grid / Flexbox support and pixel-perfect output.
-
-Usage
------
-    from financial_planning_generator import (
-        generate_plan, Investor, Advisor, SIPConfig, SWPConfig
-    )
-
-    generate_plan(
-        investor=Investor(name="Pranjal Gupta", title="Mr."),
-        advisor=Advisor(logo_path="Logo.jpg"),
-        sip=SIPConfig(monthly_sip=40000, duration_years=25),
-        swp=SWPConfig(duration_years=30),
-        output_path="output.pdf",
-    )
-"""
-
 from __future__ import annotations
 
 import base64
@@ -45,11 +10,6 @@ from pathlib import Path
 from typing import List, Optional, Tuple
 
 logger = logging.getLogger(__name__)
-
-
-# =============================================================================
-# DATA MODELS
-# =============================================================================
 
 @dataclass
 class Investor:
@@ -66,8 +26,8 @@ class Investor:
 @dataclass
 class Advisor:
     """Advisor / firm details shown in the PDF header, footer, and contact page."""
-    firm_name: str = "AGARWAL"
-    firm_subtitle: str = "FINANCIAL SERVICES"
+    firm_name: str = "AGARWAL FINANCIAL SERVICES"
+    firm_subtitle: str = ""
     firm_tagline: str = "Securing Your Future"
     firm_amfi_tag: str = "Amfi Registered Mutual Fund Distributor"
     advisor_name: str = "SUSHIL S AGARWAL"
@@ -82,9 +42,6 @@ class Advisor:
     serving_since: str = "2002"
     clients_count: str = "2,200+"
     years_of_service: str = "23 Years"
-    # Path to the firm's logo (JPG/PNG). Embedded as base64 in the PDF so the
-    # output is self-contained. If the file doesn't exist, a CSS-drawn fallback
-    # logo is used.
     logo_path: str = "Logo.jpg"
 
 
@@ -130,12 +87,6 @@ class SWPConfig:
             raise ValueError("SWP duration_years must be positive.")
         if not 0 < self.return_low < self.return_high:
             raise ValueError("return_low must be > 0 and < return_high.")
-
-
-# =============================================================================
-# FINANCIAL CALCULATIONS
-# =============================================================================
-
 def sip_future_value_flat(monthly_sip: float, annual_rate: float, years: int) -> float:
     """Future value of a constant monthly SIP, compounded monthly."""
     monthly_rate = annual_rate / 12
@@ -224,11 +175,6 @@ def format_inr_rupees(value: float) -> str:
     if rest:
         parts.insert(0, rest)
     return f"₹{','.join(parts)},{last3}"
-
-
-# =============================================================================
-# CHART HELPERS
-# =============================================================================
 
 MAX_BAR_PX = 170
 
