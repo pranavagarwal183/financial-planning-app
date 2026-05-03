@@ -1,0 +1,43 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+*.egg-info/
+*.egg
+.pytest_cache/
+.coverage
+htmlcov/
+
+# Virtual environments
+venv/
+env/
+.venv/
+ENV/
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+.DS_Store
+
+# Build / dist
+build/
+dist/
+
+# Streamlit
+.streamlit/secrets.toml
+
+# Generated outputs (don't commit client PDFs)
+Financial_Planning_*.pdf
+*.html
+!preview.html
+
+# Playwright browsers (huge, not needed in repo)
+.cache/
+ms-playwright/
+
+# Logs
+*.log
